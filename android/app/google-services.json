@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "3525304113",
+    "firebase_url": "https://dinendash-f691e.firebaseio.com",
+    "project_id": "dinendash-f691e",
+    "storage_bucket": "dinendash-f691e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:3525304113:android:a32bd55b61c8bdd334da10",
+        "android_client_info": {
+          "package_name": "app.dash.dinendash"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "3525304113-umm0gq72fetm7jdk1i7sdkrcrhen0bak.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.dash.dinendash",
+            "certificate_hash": "0cb158fd1992e8fb5c2dd35678c87b10d1433448"
+          }
+        },
+        {
+          "client_id": "3525304113-iiqlpc6e265b5ir76i5a4d2e8ta0sudq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQMF1WTys3JbA54HeNwn1MAJaHnU47790"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "3525304113-iiqlpc6e265b5ir76i5a4d2e8ta0sudq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
