@@ -1,5 +1,6 @@
 import 'package:dinendash/paths/home/screens/account.dart';
 import 'package:dinendash/paths/home/screens/orders.dart';
+import 'package:dinendash/paths/home/screens/scan/myOrder.dart';
 import 'package:dinendash/paths/home/screens/scan/scan.dart';
 import 'package:dinendash/shared/constants.dart';
 import 'package:flutter/material.dart';
@@ -22,12 +23,13 @@ class _HomeState extends State<Home> {
     });
   }
 
-  List<Widget> pages = [Orders(), Scan(), Account()];
+  List<Widget> pages = [Orders(), /*Scan()*/ MyOrder(), Account()];
 
   @override
   Widget build(BuildContext context) {
 
     final bottomNavBar = BottomNavigationBar(
+      elevation: 15,
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(FontAwesomeIcons.receipt),
@@ -48,16 +50,16 @@ class _HomeState extends State<Home> {
     );
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Dine-N-Dash',
-          style: TextStyle(color: background),
-        ),
-        centerTitle: true,
-        backgroundColor: primary,
-      ),
+      // appBar: AppBar(
+      //   title: Text(
+      //     'Dine-N-Dash',
+      //     style: TextStyle(color: background),
+      //   ),
+      //   centerTitle: true,
+      //   backgroundColor: primary,
+      // ),
       bottomNavigationBar: bottomNavBar,
-      body: pages[_selectedIndex]
+      body: SafeArea(child: pages[_selectedIndex])
     );
   }
 }

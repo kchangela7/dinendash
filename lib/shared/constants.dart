@@ -27,3 +27,28 @@ final kBoxDecorationStyle = BoxDecoration(
     ),
   ],
 );
+
+final kOrderTextStyle = TextStyle(
+  fontSize: 16, 
+  fontWeight: FontWeight.w500, 
+  letterSpacing: 0.15
+);
+
+final kCurrencyStyle = TextStyle(
+  fontSize: 16, 
+  fontWeight: FontWeight.w600, 
+  letterSpacing: 0.1, 
+  color: Colors.grey[700]
+);
+
+final kOrderHeaderStyle = TextStyle(
+  letterSpacing: 0.15, 
+  fontSize: 18, 
+  fontWeight: FontWeight.w900
+);
+
+final kOrderTextBoldStyle = TextStyle(
+  fontSize: 16, 
+  fontWeight: FontWeight.w900, 
+  letterSpacing: 0.15
+);
