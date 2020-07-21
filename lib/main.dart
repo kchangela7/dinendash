@@ -19,7 +19,8 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primaryColor: primary, 
           scaffoldBackgroundColor: background,
-          dividerTheme: DividerThemeData(thickness: 0.75, space: 40, indent: 40, color: Colors.black26)
+          fontFamily: "NotoSansJP",
+          dividerTheme: DividerThemeData(thickness: 0.75, space: 35, indent: 40, color: Colors.black26)
         ),
         home: Wrapper(),
       ),

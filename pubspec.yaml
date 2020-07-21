@@ -78,13 +78,19 @@ flutter:
           weight: 700
         - asset: fonts/Ubuntu-Italic.ttf
           style: italic
-    - family: OpenSans
+    - family: NotoSansJP
       fonts:
-        - asset: fonts/OpenSans-Regular.ttf
-        - asset: fonts/OpenSans-SemiBold.ttf
-          weight: 600
-        - asset: fonts/OpenSans-Italic.ttf
-          style: italic
+        - asset: fonts/NotoSansJP-Regular.otf
+        - asset: fonts/NotoSansJP-Bold.otf
+          weight: 700
+        - asset: fonts/NotoSansJP-Black.otf
+          weight: 900
+        - asset: fonts/NotoSansJP-Light.otf
+          weight: 300
+        - asset: fonts/NotoSansJP-Thin.otf
+          weight: 100
+        - asset: fonts/NotoSansJP-Medium.otf
+          weight: 500
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

@@ -104,7 +104,7 @@ class _MyOrderState extends State<MyOrder> {
                   )
                 ];
                 
-                // Create Order Items
+                // Items Section
                 for (var i = 0; i < order.length; i++) {
                   var currentItem = order[i];
                   double itemPrice = currentItem['price'] * currentItem['quantity'];
@@ -150,7 +150,7 @@ class _MyOrderState extends State<MyOrder> {
                   );
                 }
 
-                // Add Totals
+                // Totals Section
                 children.addAll(
                   <Widget>[
                     Align(
@@ -164,6 +164,7 @@ class _MyOrderState extends State<MyOrder> {
                       )
                     ),
                     Divider(height: 20),
+                    // Subtotal and Tax Display
                     Padding(
                       padding: const EdgeInsets.fromLTRB(40, 8, 22, 0),
                       child: Column(
@@ -187,6 +188,7 @@ class _MyOrderState extends State<MyOrder> {
                       ),
                     ),
                     Divider(),
+                    // Final Total Display
                     Padding(
                       padding: const EdgeInsets.fromLTRB(40, 0, 22, 0),
                       child: Row(
@@ -209,14 +211,16 @@ class _MyOrderState extends State<MyOrder> {
           }
         }
 
+        // Scaffold with Items and Total
         return Scaffold(
           appBar: AppBar(
             backgroundColor: background,
             elevation: 3,
-            title: Text("The Burger Joint", style: TextStyle(fontFamily: 'Ubuntu', fontWeight: FontWeight.bold)),
+            title: Text("The Burger Joint", style: kOrderHeaderStyle),
             leading: IconButton(
               icon: Icon(FontAwesomeIcons.arrowLeft, size: 20),
               onPressed: () {
+                // Back Arrow Dialog
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
@@ -226,6 +230,7 @@ class _MyOrderState extends State<MyOrder> {
               },
             ),
           ),
+          // Pay Floating Button
           floatingActionButton: FloatingActionButton.extended(
             elevation: 4,
             highlightElevation: 8,

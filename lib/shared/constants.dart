@@ -7,6 +7,9 @@ var background = Colors.grey[50];
 
 final kHintTextStyle = TextStyle(
   color: Colors.grey[700],
+  fontSize: 12,
+  fontWeight: FontWeight.w500,
+  height: 1.3,
 );
 
 final kLabelStyle = TextStyle(
@@ -29,13 +32,13 @@ final kBoxDecorationStyle = BoxDecoration(
 
 final kOrderTextStyle = TextStyle(
   fontSize: 16, 
-  fontWeight: FontWeight.w500, 
+  fontWeight: FontWeight.w500,
   letterSpacing: 0.15
 );
 
 final kCurrencyStyle = TextStyle(
   fontSize: 16, 
-  fontWeight: FontWeight.w600, 
+  fontWeight: FontWeight.w700, 
   letterSpacing: 0.1, 
   color: Colors.grey[700]
 );
@@ -54,7 +57,7 @@ final kOrderTextBoldStyle = TextStyle(
 
 final kPayTextStyle = TextStyle(
   fontSize: 20,
-  fontWeight: FontWeight.w600,
+  fontWeight: FontWeight.w700,
   color: Colors.grey[50],
   letterSpacing: 0.15
 );
