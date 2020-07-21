@@ -6,8 +6,7 @@ var primary = Colors.greenAccent[700];
 var background = Colors.grey[50];
 
 final kHintTextStyle = TextStyle(
-  color: Colors.white54,
-  fontFamily: 'OpenSans',
+  color: Colors.grey[700],
 );
 
 final kLabelStyle = TextStyle(
@@ -50,5 +49,12 @@ final kOrderHeaderStyle = TextStyle(
 final kOrderTextBoldStyle = TextStyle(
   fontSize: 16, 
   fontWeight: FontWeight.w900, 
+  letterSpacing: 0.15
+);
+
+final kPayTextStyle = TextStyle(
+  fontSize: 20,
+  fontWeight: FontWeight.w600,
+  color: Colors.grey[50],
   letterSpacing: 0.15
 );

@@ -103,10 +103,11 @@ class _MyOrderState extends State<MyOrder> {
                     )
                   )
                 ];
-
+                
+                // Create Order Items
                 for (var i = 0; i < order.length; i++) {
                   var currentItem = order[i];
-                  var itemPrice = currentItem['price'] * currentItem['quantity'];
+                  double itemPrice = currentItem['price'] * currentItem['quantity'];
                   children.add(
                     Column(
                       children: <Widget>[
@@ -114,32 +115,28 @@ class _MyOrderState extends State<MyOrder> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      '${currentItem['quantity']}',
-                                      style: kOrderTextStyle
-                                    ),
-                                    SizedBox(width: 29),
-                                    Container(
-                                      constraints: BoxConstraints(maxWidth: 225),
-                                      child: Text(
-                                        currentItem['item'],
-                                        overflow: TextOverflow.clip,
-                                        softWrap: true,
-                                        style: kOrderTextStyle,
-                                      ),
-                                    ),
-                                  ],
+                                Text(
+                                  '${currentItem['quantity']}',
+                                  style: kOrderTextStyle
+                                ),
+                                SizedBox(width: 29),
+                                Container(
+                                  constraints: BoxConstraints(maxWidth: 225),
+                                  child: Text(
+                                    currentItem['item'],
+                                    overflow: TextOverflow.clip,
+                                    softWrap: true,
+                                    style: kOrderTextStyle,
+                                  ),
                                 ),
                               ],
                             ),
                             Padding(
                               padding: const EdgeInsets.fromLTRB(0, 0, 22, 0),
                               child: Text(
-                                '\$$itemPrice',
+                                '\$${itemPrice.toStringAsFixed(2)}',
                                 style: kCurrencyStyle,
                               ),
                             )
@@ -147,12 +144,13 @@ class _MyOrderState extends State<MyOrder> {
                         ),
                         i != order.length - 1 ?
                           Divider() : 
-                          Divider(height: 40, thickness: 2, indent: 40, color: Colors.black26),
+                          Divider(thickness: 2),
                       ],
                     ),
                   );
                 }
 
+                // Add Totals
                 children.addAll(
                   <Widget>[
                     Align(
@@ -210,6 +208,7 @@ class _MyOrderState extends State<MyOrder> {
               break;
           }
         }
+
         return Scaffold(
           appBar: AppBar(
             backgroundColor: background,
@@ -228,8 +227,25 @@ class _MyOrderState extends State<MyOrder> {
             ),
           ),
           floatingActionButton: FloatingActionButton.extended(
-            onPressed: () => pay(totals["total"]),
-            label: Text('Checkout   \$${totals["total"]}', style: kOrderHeaderStyle),
+            elevation: 4,
+            highlightElevation: 8,
+            onPressed: () => showModalBottomSheet(
+              context: context, 
+              builder: (BuildContext context) {
+                return Pay(total: totals["total"]);
+              }
+            ),
+            label: Container(
+              width: 275,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  SizedBox(width: 58),
+                  Text('Pay', style: kOrderHeaderStyle),
+                  Text('\$${totals["total"]}', style: kOrderHeaderStyle)
+                ],
+              ),
+            ),
             backgroundColor: primary,
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -257,9 +273,10 @@ class ReturnDialog extends StatelessWidget {
     return AlertDialog(
       title: Text("Are you sure you want to back out?"),
       content: Text('You will have to scan the QR code again to return'),
+      buttonPadding: EdgeInsets.symmetric(horizontal: 10),
       actions: [
         FlatButton(
-          child: Text('Yes, back out'),
+          child: Text('Yes, back out', style: TextStyle(fontSize: 16)),
           onPressed: () {
             Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (BuildContext context) => Home()));
@@ -269,9 +286,10 @@ class ReturnDialog extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child: Text('Cancel')
+          child: Text('Cancel', style: TextStyle(fontSize: 16))
         )
-      ]
+      ],
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
     );
   }
 }
