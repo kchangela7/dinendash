@@ -276,23 +276,24 @@ class ReturnDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("Are you sure you want to back out?"),
+      title: Text("Are you sure you want to back out?", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
       content: Text('You will have to scan the QR code again to return'),
       buttonPadding: EdgeInsets.symmetric(horizontal: 10),
+      contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 25),
       actions: [
         FlatButton(
-          child: Text('Yes, back out', style: TextStyle(fontSize: 16)),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: Text('Cancel', style: TextStyle(fontSize: 16, color: Colors.green[800]))
+        ),
+        FlatButton(
+          child: Text('Yes, back out', style: TextStyle(fontSize: 16, color: Colors.green[800])),
           onPressed: () {
             Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (BuildContext context) => Home()));
           },
         ),
-        FlatButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: Text('Cancel', style: TextStyle(fontSize: 16))
-        )
       ],
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
     );

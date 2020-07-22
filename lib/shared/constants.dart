@@ -40,7 +40,7 @@ final kCurrencyStyle = TextStyle(
   fontSize: 16, 
   fontWeight: FontWeight.w700, 
   letterSpacing: 0.1, 
-  color: Colors.grey[700]
+  color: Colors.grey[600]
 );
 
 final kOrderHeaderStyle = TextStyle(
