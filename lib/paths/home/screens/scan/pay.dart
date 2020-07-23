@@ -14,12 +14,37 @@ class Pay extends StatefulWidget {
 
 class _PayState extends State<Pay> {
   
+  // Initial States
   List<bool> _selections = [false, true, false, false];
   String tip = "0.00";
   String payMethod = "Google Pay";
+  int prevIndex = 1;
 
   void onTipChange (String newTip) {
     setState(() => tip = newTip);
+  }
+
+  void setSelection ([int index, bool saveOtherIndex = false]) {
+    setState(() {
+      if (index != null) {
+          if (!saveOtherIndex) {
+            for (int buttonIndex = 0; buttonIndex < _selections.length; buttonIndex++) {
+            if (buttonIndex == index) {
+              _selections[buttonIndex] = true;
+            } else {
+              _selections[buttonIndex] = false;
+            }
+          }
+          if (index != 3) {
+            prevIndex = index;
+          }
+        } else {
+          prevIndex = 3;
+        }
+      } else {
+        setSelection(prevIndex);
+      }
+    });
   }
 
   @override
@@ -67,17 +92,8 @@ class _PayState extends State<Pay> {
                   borderRadius: BorderRadius.circular(30),
                   borderWidth: 1.2,
                   fillColor: Colors.green[50],
-                  onPressed: (int index) {
-                    setState(() {
-                      // Allow only one selection at a time
-                      for (int buttonIndex = 0; buttonIndex < _selections.length; buttonIndex++) {
-                        if (buttonIndex == index) {
-                          _selections[buttonIndex] = true;
-                        } else {
-                          _selections[buttonIndex] = false;
-                        }
-                      }
-                    });
+                  onPressed: (int index)  async {
+                    setSelection(index);
 
                     // Handle changes to tip percent
                     var total = widget.total;
@@ -107,12 +123,15 @@ class _PayState extends State<Pay> {
                         break;
                       case 3:
                       // Display Other Tip Dialog
-                        showDialog(
+                        String returnVal = await showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return OtherTip(onTipChange: onTipChange);
+                            return OtherTip(onTipChange: onTipChange, setSelection: setSelection);
                           }
                         );
+                        if (returnVal != "success") {
+                          setSelection();
+                        }
                         break;
                     }
                   }
@@ -175,7 +194,8 @@ class _PayState extends State<Pay> {
 class OtherTip extends StatefulWidget {
 
   final Function onTipChange;
-  OtherTip({ this.onTipChange });
+  final Function setSelection;
+  OtherTip({ this.onTipChange, this.setSelection });
 
   @override
   _OtherTipState createState() => _OtherTipState();
@@ -192,6 +212,7 @@ class _OtherTipState extends State<OtherTip> {
       title: Text("How much would you like to tip your server?", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
       titlePadding: EdgeInsets.symmetric(vertical: 20, horizontal: 16),
       contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 16),
+      
       content: TextField(
         onChanged: (val) {
           setState(() => input = val);
@@ -223,6 +244,7 @@ class _OtherTipState extends State<OtherTip> {
           )
         ),
       ),
+
       buttonPadding: EdgeInsets.symmetric(horizontal: 10),
       actionsPadding: EdgeInsets.symmetric(horizontal: 10),
       actions: [
@@ -235,7 +257,8 @@ class _OtherTipState extends State<OtherTip> {
         FlatButton(
           onPressed: () async {
             widget.onTipChange(double.parse(input).toStringAsFixed(2));
-            Navigator.of(context).pop();
+            widget.setSelection(3, true);
+            Navigator.pop(context, "success");
           },
           child: Text('Okay', style: TextStyle(fontSize: 16))
         )
