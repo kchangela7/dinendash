@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
           primaryColor: primary, 
           scaffoldBackgroundColor: background,
           fontFamily: "NotoSansJP",
-          dividerTheme: DividerThemeData(thickness: 0.75, space: 35, indent: 40, color: Colors.black26)
+          dividerTheme: DividerThemeData(thickness: 0.75, space: 30, indent: 40, color: Colors.black26)
         ),
         home: Wrapper(),
       ),

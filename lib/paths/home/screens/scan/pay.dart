@@ -19,38 +19,56 @@ class _PayState extends State<Pay> {
   String tip = "0.00";
   String payMethod = "Google Pay";
   int prevIndex = 1;
+  String finalTotal = "0.00";
 
-  void onTipChange (String newTip) {
-    setState(() => tip = newTip);
+  // Initialize tip and total using total from Stream
+  @override
+  void initState() {
+    tip = "\$" + (widget.total * 0.15).toStringAsFixed(2);
+    finalTotal = "\$" + (widget.total * 1.15).toStringAsFixed(2);
+    super.initState();
   }
 
+  void onTipChange (String newTip) {
+    setState(() => {
+      if (newTip == "Tip with cash") { // User leaves cash tip
+        tip = newTip,
+        finalTotal = "\$" + widget.total.toStringAsFixed(2)
+      } else {
+        if (double.parse(newTip) < 2.0) { // Ensure tip minimum is $2.00
+          tip = "\$2.00",
+          finalTotal = "\$" + (widget.total + 2.0).toStringAsFixed(2)
+        } else {
+          tip = "\$" + newTip,
+          finalTotal = "\$" + (widget.total + double.parse(newTip)).toStringAsFixed(2)
+        }
+      }
+    });
+  }
+
+  // Toggles selected stated of tip percent buttons
   void setSelection ([int index, bool saveOtherIndex = false]) {
     setState(() {
       if (index != null) {
-          if (!saveOtherIndex) {
-            for (int buttonIndex = 0; buttonIndex < _selections.length; buttonIndex++) {
+        if (!saveOtherIndex) {
+          for (int buttonIndex = 0; buttonIndex < _selections.length; buttonIndex++) {
             if (buttonIndex == index) {
               _selections[buttonIndex] = true;
             } else {
               _selections[buttonIndex] = false;
             }
           }
-          if (index != 3) {
+          if (index != 3) { // Prevents Other selection from being saved as previous
             prevIndex = index;
           }
         } else {
-          prevIndex = 3;
+          prevIndex = 3; // Fires when OtherTip is confirmed
         }
       } else {
-        setSelection(prevIndex);
+        setSelection(prevIndex); // Revert back to previous selection
+        // Occurs when OtherTip dialog is cancelled
       }
     });
-  }
-
-  @override
-  void initState() {
-    tip = (widget.total * 0.15).toStringAsFixed(2);
-    super.initState();
   }
 
   @override
@@ -68,14 +86,15 @@ class _PayState extends State<Pay> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text("Server Tip", style: kOrderTextStyle),
-                    Text("\$$tip", style: kOrderTextStyle)
+                    Text(tip, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, letterSpacing: 0.1, color: Colors.grey[800]))
                   ],
                 ),
               ),
+
               // Tip Percent Buttons
               SizedBox(height: 12),
               Container(
-                height: 42.5,
+                height: 40,
                 child: ToggleButtons(
                   children: <Widget>[
                     Container(width: (MediaQuery.of(context).size.width - 45)/4, child: Text("10%", textAlign: TextAlign.center)),
@@ -99,37 +118,25 @@ class _PayState extends State<Pay> {
                     var total = widget.total;
                     switch (index) {
                       case 0:
-                        if (total < 20.0) {
-                          onTipChange("2.00");
-                        } else {
-                          onTipChange((total * 0.10).toStringAsFixed(2));
-                        }
+                        onTipChange((total * 0.10).toStringAsFixed(2));
                         break;
                       case 1:
-                        if (total < 13.33) {
-                          onTipChange("2.00");
-                        } else {
-                          onTipChange((total * 0.15).toStringAsFixed(2));
-                        }
+                        onTipChange((total * 0.15).toStringAsFixed(2));
                         break;
                       case 2:
-                        setState(() {
-                          if (total < 10.0) {
-                            onTipChange("2.00");
-                          } else {
-                            onTipChange((total * 0.20).toStringAsFixed(2));
-                          }
-                        });
+                        onTipChange((total * 0.20).toStringAsFixed(2));
                         break;
                       case 3:
-                      // Display Other Tip Dialog
+                      // Display OtherTip dialog
                         String returnVal = await showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return OtherTip(onTipChange: onTipChange, setSelection: setSelection);
+                            return OtherTip(onTipChange: onTipChange);
                           }
                         );
-                        if (returnVal != "success") {
+                        if (returnVal == "success") { // Sets selection based on pop parameters
+                          setSelection(3, true);
+                        } else {
                           setSelection();
                         }
                         break;
@@ -171,6 +178,7 @@ class _PayState extends State<Pay> {
             ],
           ),
         ),
+        // Bottom Pay Now button
         bottomNavigationBar: BottomAppBar(
           color: primary,
           child: FlatButton(
@@ -181,7 +189,7 @@ class _PayState extends State<Pay> {
               children: <Widget>[
                 SizedBox(width: 60),
                 Text('Pay Now', style: kPayTextStyle),
-                Text('\$${(widget.total + double.parse(tip)).toStringAsFixed(2)}', style: kPayTextStyle)
+                Text(finalTotal, style: kPayTextStyle)
               ],
             ),
           ),
@@ -191,11 +199,11 @@ class _PayState extends State<Pay> {
   }
 }
 
+// Other Tip Dialog
 class OtherTip extends StatefulWidget {
 
   final Function onTipChange;
-  final Function setSelection;
-  OtherTip({ this.onTipChange, this.setSelection });
+  OtherTip({ this.onTipChange});
 
   @override
   _OtherTipState createState() => _OtherTipState();
@@ -203,7 +211,20 @@ class OtherTip extends StatefulWidget {
 
 class _OtherTipState extends State<OtherTip> {
 
-  String input = "";
+  String input = "6.00";
+  bool cashTip = false;
+
+  onCashTipChange (bool value) {
+    setState(() {
+      cashTip = value;
+      print(value);
+      if (value) {
+        input = "Tip with cash";
+      } else {
+        input = "";
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -213,38 +234,69 @@ class _OtherTipState extends State<OtherTip> {
       titlePadding: EdgeInsets.symmetric(vertical: 20, horizontal: 16),
       contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 16),
       
-      content: TextField(
-        onChanged: (val) {
-          setState(() => input = val);
-        },
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
-        keyboardType: TextInputType.numberWithOptions(),
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(vertical: 12),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-            borderSide: BorderSide.none
-          ),
-          hintText: "6.00",
-          hintStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.grey[600]),
-          fillColor: Colors.grey[350],
-          filled: true,
-          prefixIcon: Padding(
-            padding: const EdgeInsets.only(right: 12),
-            child: Container(
-              constraints: BoxConstraints(minWidth: 48, minHeight: 51),
-              decoration: ShapeDecoration(
-                color: primary,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.horizontal(left: Radius.circular(8))
-                )
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          // Tip input field
+          TextField(
+            onChanged: (val) {
+              setState(() => input = val);
+            },
+            readOnly: cashTip,
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+            keyboardType: TextInputType.numberWithOptions(),
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(vertical: 12),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+                borderSide: BorderSide.none
               ),
-              child: Icon(FontAwesomeIcons.dollarSign, color: Colors.white, size: 18),
+              hintText: cashTip ? "Tip with cash" : "6.00",
+              hintStyle: TextStyle(
+                fontSize: 18, 
+                fontWeight: cashTip ? FontWeight.w500 : FontWeight.w700, 
+                color: cashTip ? Colors.black : Colors.grey[700]
+              ),
+              fillColor: Colors.grey[350],
+              filled: true,
+              prefixIcon: Padding(
+                padding: const EdgeInsets.only(right: 12),
+                child: Container(
+                  constraints: BoxConstraints(minWidth: 48, minHeight: 51),
+                  decoration: ShapeDecoration(
+                    color: cashTip ? Colors.grey[700] : primary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.horizontal(left: Radius.circular(8))
+                    )
+                  ),
+                  child: Icon(FontAwesomeIcons.dollarSign, color: Colors.white, size: 18),
+                ),
+              )
+            ),
+          ),
+          // Tip with cash checkbox
+          Align(
+            alignment: Alignment.centerLeft,
+            child: InkWell(
+              onTap: () => onCashTipChange(!cashTip),
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Checkbox(
+                    value: cashTip,
+                    onChanged: (value) => onCashTipChange(value),
+                    activeColor: primary,
+                  ),
+                  Text("Tip with cash", style: kOrderTextStyle)
+                ],
+              ),
             ),
           )
-        ),
+        ],
       ),
-
       buttonPadding: EdgeInsets.symmetric(horizontal: 10),
       actionsPadding: EdgeInsets.symmetric(horizontal: 10),
       actions: [
@@ -255,16 +307,18 @@ class _OtherTipState extends State<OtherTip> {
           },
         ),
         FlatButton(
+          child: Text('Okay', style: TextStyle(fontSize: 16)),
           onPressed: () async {
-            widget.onTipChange(double.parse(input).toStringAsFixed(2));
-            widget.setSelection(3, true);
+            if (cashTip) {
+              widget.onTipChange("Tip with cash");
+            } else {
+              widget.onTipChange(double.parse(input).toStringAsFixed(2));
+            }
             Navigator.pop(context, "success");
-          },
-          child: Text('Okay', style: TextStyle(fontSize: 16))
+          }
         )
       ],
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
     );
   }
 }
-

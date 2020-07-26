@@ -18,7 +18,7 @@ class _MyOrderState extends State<MyOrder> {
 
   Stream<Map<String, dynamic>> _currentOrder = (() async* {
     Map<String, dynamic> data = {
-      "order": [{"item": "Burger", "price": 10.55, "quantity": 1}, {"item": "Burger", "price": 10.55, "quantity": 1}, {"item": "Burger", "price": 10.55, "quantity": 1}, {"item": "Large Fries", "price": 5.32, "quantity": 2}, {"item": "Ice Cream", "price": 10.00, "quantity": 1}, {"item": "Chicken Burger", "price": 9.64, "quantity": 1}], 
+      "order": [{"item": "Burger", "price": 10.55, "quantity": 1}, {"item": "Curry", "price": 12.97, "quantity": 1}, {"item": "Chicken Alfredo", "price": 11.29, "quantity": 1}, {"item": "Large Fries", "price": 5.32, "quantity": 2}, {"item": "Ice Cream", "price": 3.98, "quantity": 3}, {"item": "Chicken Burger", "price": 9.64, "quantity": 1}], 
       "totals": {"subtotal": 40.83, "tax": 1.94, "total": 42.77}
     };
     await Future<void>.delayed(Duration(seconds: 1));
@@ -107,7 +107,7 @@ class _MyOrderState extends State<MyOrder> {
                 // Items Section
                 for (var i = 0; i < order.length; i++) {
                   var currentItem = order[i];
-                  double itemPrice = currentItem['price'] * currentItem['quantity'];
+                  double itemTotalPrice = currentItem['price'] * currentItem['quantity'];
                   children.add(
                     Column(
                       children: <Widget>[
@@ -122,21 +122,28 @@ class _MyOrderState extends State<MyOrder> {
                                   style: kOrderTextStyle
                                 ),
                                 SizedBox(width: 29),
-                                Container(
-                                  constraints: BoxConstraints(maxWidth: 225),
-                                  child: Text(
-                                    currentItem['item'],
-                                    overflow: TextOverflow.clip,
-                                    softWrap: true,
-                                    style: kOrderTextStyle,
-                                  ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Container(
+                                      constraints: BoxConstraints(maxWidth: 225),
+                                      child: Text(
+                                        currentItem['item'],
+                                        overflow: TextOverflow.clip,
+                                        softWrap: true,
+                                        style: kOrderTextStyle,
+                                      ),
+                                    ),
+                                    SizedBox(height: 3),
+                                    Text("@ \$${currentItem["price"].toStringAsFixed(2)} each", style: kCurrencyStyleSmall),
+                                  ],
                                 ),
                               ],
                             ),
                             Padding(
                               padding: const EdgeInsets.fromLTRB(0, 0, 22, 0),
                               child: Text(
-                                '\$${itemPrice.toStringAsFixed(2)}',
+                                '\$${itemTotalPrice.toStringAsFixed(2)}',
                                 style: kCurrencyStyle,
                               ),
                             )
@@ -174,14 +181,14 @@ class _MyOrderState extends State<MyOrder> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Text("Subtotal", style: kOrderTextStyle),
-                              Text("\$${totals["subtotal"]}", style: kCurrencyStyle)
+                              Text("\$${totals["subtotal"].toStringAsFixed(2)}", style: kCurrencyStyle)
                             ],
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Text("Tax", style: kOrderTextStyle),
-                              Text("\$${totals["tax"]}", style: kCurrencyStyle)
+                              Text("\$${totals["tax"].toStringAsFixed(2)}", style: kCurrencyStyle)
                             ],
                           ),
                         ],
@@ -195,7 +202,7 @@ class _MyOrderState extends State<MyOrder> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text("Total", style: kOrderTextBoldStyle),
-                          Text("\$${totals["total"]}", style: kOrderTextBoldStyle)
+                          Text("\$${totals["total"].toStringAsFixed(2)}", style: kOrderTextBoldStyle)
                         ],
                       ),
                     ),
@@ -247,7 +254,7 @@ class _MyOrderState extends State<MyOrder> {
                 children: <Widget>[
                   SizedBox(width: 58),
                   Text('Pay', style: kOrderHeaderStyle),
-                  Text('\$${totals["total"]}', style: kOrderHeaderStyle)
+                  Text('\$${totals["total"].toStringAsFixed(2)}', style: kOrderHeaderStyle)
                 ],
               ),
             ),

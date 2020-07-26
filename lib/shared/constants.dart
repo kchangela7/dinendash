@@ -43,6 +43,12 @@ final kCurrencyStyle = TextStyle(
   color: Colors.grey[600]
 );
 
+final kCurrencyStyleSmall = TextStyle(
+  fontWeight: FontWeight.w500,
+  letterSpacing: 0.1,
+  color: Colors.grey[600]
+);
+
 final kOrderHeaderStyle = TextStyle(
   letterSpacing: 0.15, 
   fontSize: 18, 
