@@ -1,6 +1,6 @@
-import 'package:dinendash/paths/home/screens/account.dart';
+import 'package:dinendash/paths/home/screens/account/account.dart';
 import 'package:dinendash/paths/home/screens/orders.dart';
-import 'package:dinendash/paths/home/screens/scan/myOrder.dart';
+import 'package:dinendash/paths/home/screens/scan/orderView/myOrder.dart';
 import 'package:dinendash/paths/home/screens/scan/scan.dart';
 import 'package:dinendash/shared/constants.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +13,6 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
-  
-  
   int _selectedIndex = 1;
 
   void _onItemTapped(int index) {

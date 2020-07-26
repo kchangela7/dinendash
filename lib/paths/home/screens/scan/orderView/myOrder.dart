@@ -1,5 +1,5 @@
 import 'package:dinendash/paths/home/home.dart';
-import 'package:dinendash/paths/home/screens/scan/pay.dart';
+import 'package:dinendash/paths/home/screens/scan/orderView/pay.dart';
 import 'package:dinendash/shared/constants.dart';
 import 'package:dinendash/shared/loading_utils/loading.dart';
 import 'package:flutter/material.dart';

@@ -1,5 +1,5 @@
 import 'package:barcode_scan/barcode_scan.dart';
-import 'package:dinendash/paths/home/screens/scan/myOrder.dart';
+import 'package:dinendash/paths/home/screens/scan/orderView/myOrder.dart';
 import 'package:dinendash/services/database.dart';
 import 'package:dinendash/shared/constants.dart';
 import 'package:dinendash/shared/loading_utils/snackBar.dart';
