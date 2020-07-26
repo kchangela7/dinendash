@@ -221,11 +221,9 @@ class _MyOrderState extends State<MyOrder> {
         // Scaffold with Items and Total
         return Scaffold(
           appBar: AppBar(
-            backgroundColor: background,
-            elevation: 3,
             title: Text("The Burger Joint", style: kOrderHeaderStyle),
             leading: IconButton(
-              icon: Icon(FontAwesomeIcons.arrowLeft, size: 20),
+              icon: Icon(FontAwesomeIcons.chevronLeft, size: 18),
               onPressed: () {
                 // Back Arrow Dialog
                 showDialog(

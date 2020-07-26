@@ -17,9 +17,13 @@ class MyApp extends StatelessWidget {
       value: AuthService().user,
       child: MaterialApp(
         theme: ThemeData(
-          primaryColor: primary, 
-          scaffoldBackgroundColor: background,
+          backgroundColor: background,
+          primaryColor: primary,
           fontFamily: "NotoSansJP",
+          appBarTheme: AppBarTheme(
+            elevation: 3,
+            color: background
+          ),
           dividerTheme: DividerThemeData(thickness: 0.75, space: 30, indent: 40, color: Colors.black26)
         ),
         home: Wrapper(),

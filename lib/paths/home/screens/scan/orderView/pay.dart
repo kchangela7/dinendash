@@ -1,3 +1,4 @@
+import 'package:dinendash/paths/home/screens/account/paymethods.dart';
 import 'package:dinendash/paths/home/screens/scan/orderView/otherTip.dart';
 import 'package:dinendash/shared/constants.dart';
 import 'package:flutter/material.dart';
@@ -159,7 +160,11 @@ class _PayState extends State<Pay> {
               // Pay Method Button
               FlatButton(
                 padding: EdgeInsets.symmetric(vertical: 14, horizontal: 20),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context, MaterialPageRoute(builder: (BuildContext context) => PayMethods())
+                  );
+                },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[

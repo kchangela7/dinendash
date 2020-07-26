@@ -52,7 +52,7 @@ final kCurrencyStyleSmall = TextStyle(
 final kOrderHeaderStyle = TextStyle(
   letterSpacing: 0.15, 
   fontSize: 18, 
-  fontWeight: FontWeight.w900
+  fontWeight: FontWeight.w700
 );
 
 final kOrderTextBoldStyle = TextStyle(
