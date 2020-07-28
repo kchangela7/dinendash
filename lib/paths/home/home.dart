@@ -1,6 +1,6 @@
 import 'package:dinendash/paths/home/screens/account/account.dart';
 import 'package:dinendash/paths/home/screens/orders.dart';
-import 'package:dinendash/paths/home/screens/scan/orderView/myOrder.dart';
+import 'package:dinendash/paths/home/screens/scan/orderView/orderView.dart';
 import 'package:dinendash/paths/home/screens/scan/scan.dart';
 import 'package:dinendash/shared/constants.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +21,7 @@ class _HomeState extends State<Home> {
     });
   }
 
-  List<Widget> pages = [Orders(), /*Scan()*/ MyOrder(), Account()];
+  List<Widget> pages = [Orders(), /*Scan()*/ OrderView(), Account()];
 
   @override
   Widget build(BuildContext context) {

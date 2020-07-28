@@ -1,5 +1,6 @@
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:dinendash/paths/home/screens/scan/orderView/myOrder.dart';
+import 'package:dinendash/paths/home/screens/scan/orderView/orderView.dart';
 import 'package:dinendash/services/database.dart';
 import 'package:dinendash/shared/constants.dart';
 import 'package:dinendash/shared/loading_utils/snackBar.dart';
@@ -35,7 +36,7 @@ class _ScanState extends State<Scan> {
                   String tableID = await DatabaseService().qrLookup(scanResult); // Determine Table and Merchant ID
                   if (tableID != null) {
                     Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (BuildContext context) => MyOrder(tableID: tableID,)));
+                    context, MaterialPageRoute(builder: (BuildContext context) => OrderView(tableID: tableID,)));
                   } else {
                     Scaffold.of(context)
                     ..hideCurrentSnackBar()
