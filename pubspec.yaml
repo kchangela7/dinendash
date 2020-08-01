@@ -70,13 +70,6 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Ubuntu
-      fonts:
-        - asset: fonts/Ubuntu-Regular.ttf
-        - asset: fonts/Ubuntu-Bold.ttf
-          weight: 700
-        - asset: fonts/Ubuntu-Italic.ttf
-          style: italic
     - family: NotoSansJP
       fonts:
         - asset: fonts/NotoSansJP-Regular.otf

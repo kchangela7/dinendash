@@ -109,7 +109,7 @@ class _PayState extends State<Pay> {
                   textStyle: kCurrencyStyle,
                   isSelected: _selections,
                   color: Colors.grey[600],
-                  borderColor: Colors.grey,
+                  borderColor: Colors.grey[350],
                   borderRadius: BorderRadius.circular(30),
                   borderWidth: 1.2,
                   fillColor: Colors.green[50],
@@ -188,7 +188,7 @@ class _PayState extends State<Pay> {
         bottomNavigationBar: BottomAppBar(
           color: primary,
           child: FlatButton(
-            padding: EdgeInsets.all(14),
+            padding: EdgeInsets.all(12),
             onPressed: () {},
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

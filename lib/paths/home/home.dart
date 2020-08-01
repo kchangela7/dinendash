@@ -4,6 +4,7 @@ import 'package:dinendash/paths/home/screens/scan/orderView/orderView.dart';
 import 'package:dinendash/paths/home/screens/scan/scan.dart';
 import 'package:dinendash/shared/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Home extends StatefulWidget {
@@ -27,7 +28,8 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
 
     final bottomNavBar = BottomNavigationBar(
-      elevation: 15,
+      backgroundColor: Colors.white,
+      elevation: 8,
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(FontAwesomeIcons.receipt),
@@ -47,17 +49,18 @@ class _HomeState extends State<Home> {
       onTap: _onItemTapped,
     );
 
-    return Scaffold(
-      // appBar: AppBar(
-      //   title: Text(
-      //     'Dine-N-Dash',
-      //     style: TextStyle(color: background),
-      //   ),
-      //   centerTitle: true,
-      //   backgroundColor: primary,
-      // ),
-      bottomNavigationBar: bottomNavBar,
-      body: SafeArea(child: pages[_selectedIndex])
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.dark.copyWith(
+        statusBarColor: Colors.transparent,
+        systemNavigationBarColor: Colors.transparent
+      ),
+      child: Container(
+        color: background,
+        child: Scaffold(
+          bottomNavigationBar: bottomNavBar,
+          body: pages[_selectedIndex]
+        ),
+      )
     );
   }
 }

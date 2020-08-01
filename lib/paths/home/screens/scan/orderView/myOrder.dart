@@ -1,4 +1,3 @@
-import 'package:dinendash/paths/home/home.dart';
 import 'package:dinendash/shared/constants.dart';
 import 'package:flutter/material.dart';
 

@@ -14,7 +14,7 @@ final kHintTextStyle = TextStyle(
 
 final kLabelStyle = TextStyle(
   color: Colors.white,
-  fontWeight: FontWeight.bold,
+  fontWeight: FontWeight.w600,
   fontFamily: 'OpenSans',
 );
 
@@ -32,7 +32,7 @@ final kBoxDecorationStyle = BoxDecoration(
 
 final kOrderTextStyle = TextStyle(
   fontSize: 16, 
-  fontWeight: FontWeight.w500,
+  fontWeight: FontWeight.w700,
   letterSpacing: 0.15
 );
 
@@ -52,7 +52,7 @@ final kCurrencyStyleSmall = TextStyle(
 final kOrderHeaderStyle = TextStyle(
   letterSpacing: 0.15, 
   fontSize: 18, 
-  fontWeight: FontWeight.w700
+  fontWeight: FontWeight.w900
 );
 
 final kOrderTextBoldStyle = TextStyle(
@@ -62,8 +62,8 @@ final kOrderTextBoldStyle = TextStyle(
 );
 
 final kPayTextStyle = TextStyle(
-  fontSize: 20,
-  fontWeight: FontWeight.w700,
+  fontSize: 18,
+  fontWeight: FontWeight.w500,
   color: Colors.grey[50],
   letterSpacing: 0.15
 );

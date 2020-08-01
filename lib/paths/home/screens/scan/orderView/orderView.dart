@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
-import '../../../home.dart';
-
 class OrderView extends StatefulWidget {
 
   
@@ -45,13 +43,13 @@ class _OrderViewState extends State<OrderView> {
             leading: IconButton(
               icon: Icon(FontAwesomeIcons.chevronLeft, size: 18),
               onPressed: () async {
-                bool result = await showDialog(
+                String result = await showDialog(
                   context: context,
                   builder: (BuildContext context) {
                     return ReturnDialog();
                   }
                 );
-                if (result) Navigator.pop(context);
+                if (result == "exit") Navigator.pop(context);
               }
             ),
           ),
@@ -71,8 +69,8 @@ class _OrderViewState extends State<OrderView> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   SizedBox(width: 58),
-                  Text('Pay', style: kOrderHeaderStyle),
-                  Text('\$${totals["total"].toStringAsFixed(2)}', style: kOrderHeaderStyle)
+                  Text('Pay', style: kPayTextStyle),
+                  Text('\$${totals["total"].toStringAsFixed(2)}', style: kPayTextStyle)
                 ],
               ),
             ),
@@ -110,14 +108,14 @@ class ReturnDialog extends StatelessWidget {
       actions: [
         FlatButton(
           onPressed: () {
-            Navigator.pop(context, false);
+            Navigator.pop(context);
           },
           child: Text('Cancel', style: TextStyle(fontSize: 16, color: Colors.green[800]))
         ),
         FlatButton(
           child: Text('Yes, back out', style: TextStyle(fontSize: 16, color: Colors.green[800])),
           onPressed: () {
-            Navigator.pop(context, true);
+            Navigator.pop(context, "exit");
           },
         ),
       ],

@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
           primaryColor: primary,
           fontFamily: "NotoSansJP",
           appBarTheme: AppBarTheme(
-            elevation: 3,
+            elevation: 2,
             color: background
           ),
           dividerTheme: DividerThemeData(thickness: 0.75, space: 30, indent: 40, color: Colors.black26)
