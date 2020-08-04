@@ -32,13 +32,13 @@ final kBoxDecorationStyle = BoxDecoration(
 
 final kOrderTextStyle = TextStyle(
   fontSize: 16, 
-  fontWeight: FontWeight.w700,
+  fontWeight: FontWeight.w500,
   letterSpacing: 0.15
 );
 
 final kCurrencyStyle = TextStyle(
   fontSize: 16, 
-  fontWeight: FontWeight.w700, 
+  fontWeight: FontWeight.w500, 
   letterSpacing: 0.1, 
   color: Colors.grey[600]
 );
@@ -57,7 +57,7 @@ final kOrderHeaderStyle = TextStyle(
 
 final kOrderTextBoldStyle = TextStyle(
   fontSize: 16, 
-  fontWeight: FontWeight.w900, 
+  fontWeight: FontWeight.w700, 
   letterSpacing: 0.15
 );
 
@@ -66,4 +66,10 @@ final kPayTextStyle = TextStyle(
   fontWeight: FontWeight.w500,
   color: Colors.grey[50],
   letterSpacing: 0.15
+);
+
+final kAppBarHeading = TextStyle(
+  fontSize: 18,
+  letterSpacing: 0.15,
+  fontWeight: FontWeight.w700
 );

@@ -140,7 +140,12 @@ class _MyOrderState extends State<MyOrder> {
         ],
       );
 
-      return SingleChildScrollView(child: Column(children: children));
+      return SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(15, 15, 0, 15),
+          child: Column(children: children),
+        )
+      );
 
     } else {
       return Container();

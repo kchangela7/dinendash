@@ -70,18 +70,14 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: NotoSansJP
+    - family: Roboto
       fonts:
-        - asset: fonts/NotoSansJP-Regular.otf
-        - asset: fonts/NotoSansJP-Bold.otf
+        - asset: fonts/Roboto-Regular.ttf
+        - asset: fonts/Roboto-Bold.ttf
           weight: 700
-        - asset: fonts/NotoSansJP-Black.otf
+        - asset: fonts/Roboto-Black.ttf
           weight: 900
-        - asset: fonts/NotoSansJP-Light.otf
-          weight: 300
-        - asset: fonts/NotoSansJP-Thin.otf
-          weight: 100
-        - asset: fonts/NotoSansJP-Medium.otf
+        - asset: fonts/Roboto-Medium.ttf
           weight: 500
   #
   # For details regarding fonts from package dependencies,

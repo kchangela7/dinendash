@@ -39,7 +39,7 @@ class _OrderViewState extends State<OrderView> {
         
         return Scaffold(
           appBar: AppBar(
-            title: Text("The Burger Joint", style: kOrderHeaderStyle),
+            title: Text("Marcos Pizza", style: kAppBarHeading),
             leading: IconButton(
               icon: Icon(FontAwesomeIcons.chevronLeft, size: 18),
               onPressed: () async {
@@ -64,12 +64,12 @@ class _OrderViewState extends State<OrderView> {
               }
             ),
             label: Container(
-              width: 275,
+              width: MediaQuery.of(context).size.width - 80,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   SizedBox(width: 58),
-                  Text('Pay', style: kPayTextStyle),
+                  Text('Checkout', style: kPayTextStyle),
                   Text('\$${totals["total"].toStringAsFixed(2)}', style: kPayTextStyle)
                 ],
               ),
@@ -77,14 +77,11 @@ class _OrderViewState extends State<OrderView> {
             backgroundColor: primary,
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-          body: Padding(
-            padding: const EdgeInsets.fromLTRB(15, 15, 0, 15),
-            child: Stack(
-              children: <Widget>[
-                MyOrder(data: snapshot.data),
-                if (snapshot.connectionState != ConnectionState.done) Loading()
-              ],
-            )
+          body: Stack(
+            children: <Widget>[
+              MyOrder(data: snapshot.data),
+              if (snapshot.connectionState != ConnectionState.done) Loading()
+            ],
           )
         );
       }

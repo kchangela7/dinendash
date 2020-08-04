@@ -12,7 +12,7 @@ class _PayMethodsState extends State<PayMethods> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Payment", style: kOrderHeaderStyle),
+        title: Text("Payment", style: kAppBarHeading),
         leading: IconButton(
           icon: Icon(FontAwesomeIcons.chevronLeft, size: 18),
           onPressed: () {
@@ -25,7 +25,7 @@ class _PayMethodsState extends State<PayMethods> {
           // Select Payment Options
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
-            child: Text("Select Payment Method", style: kOrderHeaderStyle),
+            child: Text("Select Payment Method", style: kAppBarHeading),
           ),
           ListTile(
             contentPadding: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
@@ -42,7 +42,7 @@ class _PayMethodsState extends State<PayMethods> {
           // Add Payment Options
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
-            child: Text("Add Payment Method", style: kOrderHeaderStyle),
+            child: Text("Add Payment Method", style: kAppBarHeading),
           ),
           ListTile(
             contentPadding: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
