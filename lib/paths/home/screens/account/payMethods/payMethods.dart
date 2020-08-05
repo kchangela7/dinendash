@@ -1,3 +1,4 @@
+import 'package:dinendash/paths/home/screens/account/payMethods/addCard.dart';
 import 'package:dinendash/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -52,7 +53,11 @@ class _PayMethodsState extends State<PayMethods> {
               child: Text("Credit/Debit Card", style: kOrderTextStyle),
             ),
             trailing: Icon(Icons.chevron_right, color: Colors.grey[600], size: 28),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context, MaterialPageRoute(builder: (BuildContext context) => AddCard())
+              );
+            },
           ),
           Divider(indent: 0, height: 0),
           ListTile(

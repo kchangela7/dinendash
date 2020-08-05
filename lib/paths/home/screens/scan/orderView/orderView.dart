@@ -107,10 +107,10 @@ class ReturnDialog extends StatelessWidget {
           onPressed: () {
             Navigator.pop(context);
           },
-          child: Text('Cancel', style: TextStyle(fontSize: 16, color: Colors.green[800]))
+          child: Text('Cancel', style: TextStyle(fontSize: 16))
         ),
         FlatButton(
-          child: Text('Yes, back out', style: TextStyle(fontSize: 16, color: Colors.green[800])),
+          child: Text('Yes, back out', style: TextStyle(fontSize: 16)),
           onPressed: () {
             Navigator.pop(context, "exit");
           },

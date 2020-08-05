@@ -60,7 +60,7 @@ class _OtherTipState extends State<OtherTip> {
                 fontWeight: cashTip ? FontWeight.w500 : FontWeight.w700, 
                 color: cashTip ? Colors.black : Colors.grey[700]
               ),
-              fillColor: Colors.grey[350],
+              fillColor: Colors.grey[300],
               filled: true,
               prefixIcon: Padding(
                 padding: const EdgeInsets.only(right: 12),

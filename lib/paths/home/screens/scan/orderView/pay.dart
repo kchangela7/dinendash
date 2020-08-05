@@ -1,4 +1,4 @@
-import 'package:dinendash/paths/home/screens/account/paymethods.dart';
+import 'package:dinendash/paths/home/screens/account/payMethods/payMethods.dart';
 import 'package:dinendash/paths/home/screens/scan/orderView/otherTip.dart';
 import 'package:dinendash/shared/constants.dart';
 import 'package:flutter/material.dart';
@@ -104,8 +104,8 @@ class _PayState extends State<Pay> {
                     Container(width: (MediaQuery.of(context).size.width - 45)/4, child: Text("20%", textAlign: TextAlign.center)),
                     Container(width: (MediaQuery.of(context).size.width - 45)/4, child: Text("Other", textAlign: TextAlign.center, style: kOrderTextStyle))
                   ],
-                  selectedColor: Colors.green[800],
-                  selectedBorderColor: Colors.green[700],
+                  selectedColor: Colors.green[600],
+                  selectedBorderColor: Colors.green[600],
                   textStyle: kCurrencyStyle,
                   isSelected: _selections,
                   color: Colors.grey[600],
