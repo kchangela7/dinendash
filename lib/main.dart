@@ -17,15 +17,12 @@ class MyApp extends StatelessWidget {
       value: AuthService().user,
       child: MaterialApp(
         theme: ThemeData(
-          backgroundColor: background,
-          primaryColor: primary,
-          fontFamily: "Roboto",
-          appBarTheme: AppBarTheme(
-            elevation: 2,
-            color: background
-          ),
-          dividerTheme: DividerThemeData(thickness: 0.75, space: 40, indent: 40, color: Colors.black26)
-        ),
+            backgroundColor: background,
+            primaryColor: primary,
+            fontFamily: "MavenPro",
+            appBarTheme: AppBarTheme(elevation: 2, color: background),
+            dividerTheme: DividerThemeData(
+                thickness: 0.75, space: 40, indent: 40, color: Colors.black26)),
         home: Wrapper(),
       ),
     );

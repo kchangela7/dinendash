@@ -71,15 +71,19 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Roboto
+    - family: MavenPro
       fonts:
-        - asset: fonts/Roboto-Regular.ttf
-        - asset: fonts/Roboto-Bold.ttf
+        - asset: fonts/MavenPro-Regular.ttf
+        - asset: fonts/MavenPro-Bold.ttf
           weight: 700
-        - asset: fonts/Roboto-Black.ttf
+        - asset: fonts/MavenPro-Black.ttf
           weight: 900
-        - asset: fonts/Roboto-Medium.ttf
+        - asset: fonts/MavenPro-Medium.ttf
           weight: 500
+        - asset: fonts/MavenPro-SemiBold.ttf
+          weight: 600
+        - asset: fonts/MavenPro-ExtraBold.ttf
+          weight: 800
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
