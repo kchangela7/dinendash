@@ -12,6 +12,7 @@ class _PayMethodsState extends State<PayMethods> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: background,
       appBar: AppBar(
         title: Text("Payment", style: kAppBarHeading),
         leading: IconButton(
@@ -52,11 +53,13 @@ class _PayMethodsState extends State<PayMethods> {
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Text("Credit/Debit Card", style: kOrderTextStyle),
             ),
-            trailing: Icon(Icons.chevron_right, color: Colors.grey[600], size: 28),
+            trailing:
+                Icon(Icons.chevron_right, color: Colors.grey[600], size: 28),
             onTap: () {
               Navigator.push(
-                context, MaterialPageRoute(builder: (BuildContext context) => AddCard())
-              );
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => AddCard()));
             },
           ),
           Divider(indent: 0, height: 0),
@@ -67,7 +70,8 @@ class _PayMethodsState extends State<PayMethods> {
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Text("Bank Account", style: kOrderTextStyle),
             ),
-            trailing: Icon(Icons.chevron_right, color: Colors.grey[600], size: 28),
+            trailing:
+                Icon(Icons.chevron_right, color: Colors.grey[600], size: 28),
             onTap: () {},
           ),
           Divider(indent: 0, height: 0),

@@ -13,7 +13,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
   int _selectedIndex = 1;
 
   void _onItemTapped(int index) {
@@ -22,11 +21,10 @@ class _HomeState extends State<Home> {
     });
   }
 
-  List<Widget> pages = [Orders(), /*Scan()*/ OrderView(), Account()];
+  List<Widget> pages = [Orders(), Scan() /*OrderView()*/, Account()];
 
   @override
   Widget build(BuildContext context) {
-
     final bottomNavBar = BottomNavigationBar(
       backgroundColor: Colors.white,
       elevation: 8,
@@ -50,18 +48,14 @@ class _HomeState extends State<Home> {
     );
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle.dark.copyWith(
-        statusBarColor: Colors.transparent,
-        systemNavigationBarColor: Colors.transparent,
-        systemNavigationBarIconBrightness: Brightness.dark
-      ),
-      child: Container(
-        color: background,
-        child: Scaffold(
-          bottomNavigationBar: bottomNavBar,
-          body: pages[_selectedIndex]
-        ),
-      )
-    );
+        value: SystemUiOverlayStyle.dark.copyWith(
+            statusBarColor: Colors.transparent,
+            systemNavigationBarColor: Colors.transparent,
+            systemNavigationBarIconBrightness: Brightness.dark),
+        child: Container(
+          color: background,
+          child: Scaffold(
+              bottomNavigationBar: bottomNavBar, body: pages[_selectedIndex]),
+        ));
   }
 }
