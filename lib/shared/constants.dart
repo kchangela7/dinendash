@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 // Style Sheet Colors
 var primary = Colors.greenAccent[700];
 // const primary = Color(0xFF012bb23);
-var background = Colors.grey[50];
+var background = Colors.white;
 
 final kHintTextStyle = TextStyle(
   color: Colors.grey[700],
@@ -33,7 +33,7 @@ final kBoxDecorationStyle = BoxDecoration(
 final kOrderTextStyle = TextStyle(
   fontSize: 16, 
   fontWeight: FontWeight.w500,
-  letterSpacing: 0.15
+  letterSpacing: 0.1
 );
 
 final kCurrencyStyle = TextStyle(
