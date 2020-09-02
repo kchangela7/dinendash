@@ -12,15 +12,16 @@ class Scan extends StatefulWidget {
 }
 
 class _ScanState extends State<Scan> {
-
   String scanResult;
   String error;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: background,
       appBar: AppBar(
-        title: Text("DineNDash"),
+        title: Text("DineNDash", style: kAppBarHeading),
+        centerTitle: true,
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -30,17 +31,21 @@ class _ScanState extends State<Scan> {
             child: RawMaterialButton(
               onPressed: () async {
                 // Scan QR Code
-                dynamic result = await BarcodeScanner.scan(options: ScanOptions(restrictFormat: [BarcodeFormat.qr]));
-                scanResult = result.rawContent; // Data retrieved from scan
-                  String tableID = await DatabaseService().qrLookup(scanResult); // Determine Table and Merchant ID
-                  if (tableID != null) {
-                    Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (BuildContext context) => OrderView(tableID: tableID,)));
-                  } else {
-                    Scaffold.of(context)
-                    ..hideCurrentSnackBar()
-                    ..showSnackBar(errorSnackBar('An error occured during the scan'));
-                  }
+                // dynamic result = await BarcodeScanner.scan(options: ScanOptions(restrictFormat: [BarcodeFormat.qr]));
+                // scanResult = result.rawContent; // Data retrieved from scan
+                //   String tableID = await DatabaseService().qrLookup(scanResult); // Determine Table and Merchant ID
+                //   if (tableID != null) {
+                //     Navigator.pushReplacement(
+                //     context, MaterialPageRoute(builder: (BuildContext context) => OrderView(tableID: tableID,)));
+                //   } else {
+                //     Scaffold.of(context)
+                //     ..hideCurrentSnackBar()
+                //     ..showSnackBar(errorSnackBar('An error occured during the scan'));
+                //   }
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => OrderView()));
               },
               elevation: 2.0,
               fillColor: primary,
@@ -55,7 +60,10 @@ class _ScanState extends State<Scan> {
                   SizedBox(height: 3),
                   Text(
                     'Scan',
-                    style: TextStyle(color: background, fontWeight: FontWeight.bold, letterSpacing: 1),
+                    style: TextStyle(
+                        color: background,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1),
                   )
                 ],
               ),

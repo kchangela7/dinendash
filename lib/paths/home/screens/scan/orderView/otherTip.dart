@@ -57,7 +57,7 @@ class _OtherTipState extends State<OtherTip> {
               hintText: cashTip ? "Tip with cash" : "6.00",
               hintStyle: TextStyle(
                 fontSize: 18, 
-                fontWeight: cashTip ? FontWeight.w500 : FontWeight.w700, 
+                fontWeight: cashTip ? FontWeight.w600 : FontWeight.w600, 
                 color: cashTip ? Colors.black : Colors.grey[700]
               ),
               fillColor: Colors.grey[300],

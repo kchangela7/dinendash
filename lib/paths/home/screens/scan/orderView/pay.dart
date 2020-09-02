@@ -76,7 +76,7 @@ class _PayState extends State<Pay> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 320,
+      height: 360,
       child: Scaffold(
         body: SingleChildScrollView(
           child: Column(
@@ -88,7 +88,7 @@ class _PayState extends State<Pay> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text("Server Tip", style: kOrderTextStyle),
-                    Text(tip, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, letterSpacing: 0.1, color: Colors.grey[800]))
+                    Text(tip, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, letterSpacing: 0.1, color: Colors.grey[800]))
                   ],
                 ),
               ),
@@ -188,7 +188,7 @@ class _PayState extends State<Pay> {
         bottomNavigationBar: BottomAppBar(
           color: primary,
           child: FlatButton(
-            padding: EdgeInsets.all(12),
+            padding: EdgeInsets.all(16),
             onPressed: () {},
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
