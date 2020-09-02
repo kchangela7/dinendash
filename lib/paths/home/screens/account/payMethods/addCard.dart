@@ -10,6 +10,7 @@ class AddCard extends StatefulWidget {
 }
 
 class _AddCardState extends State<AddCard> {
+  // Card states
   String cardNumber = "";
   String cardHolderName = "Your Name";
   String expiryMonth = "MM";
@@ -19,11 +20,13 @@ class _AddCardState extends State<AddCard> {
 
   final _formKey = GlobalKey<FormState>();
 
-  bool isValidMonth = true;
-  bool isValidYear = true;
+  // Validity checks
+  bool isInvalidYear = false;
 
-  final expiryController = TextEditingController();
+  final expiryMMController = TextEditingController();
+  final expiryYYController = TextEditingController();
 
+  // Change focus to different fields
   FocusNode _expMMFocusNode = new FocusNode();
   FocusNode _expYYFocusNode = new FocusNode();
   FocusNode _nameFocusNode = new FocusNode();
@@ -32,7 +35,8 @@ class _AddCardState extends State<AddCard> {
   @override
   void initState() {
     super.initState();
-    expiryController.addListener(_expiryMonthController);
+    expiryMMController.addListener(_expiryMonthController);
+    expiryYYController.addListener(_expiryYearController);
     _cvvFocusNode.addListener(() {
       setState(() {
         _cvvFocusNode.hasFocus ? showBack = true : showBack = false;
@@ -46,27 +50,40 @@ class _AddCardState extends State<AddCard> {
     _expYYFocusNode.dispose();
     _nameFocusNode.dispose();
     _cvvFocusNode.dispose();
-    expiryController.dispose();
+    expiryMMController.dispose();
+    expiryYYController.dispose();
     super.dispose();
   }
 
+  // Automatically move to expiryYY field
   _expiryMonthController() {
-    String currentValue = expiryController.text;
-    setState(() {
-      if (currentValue != "" && int.parse(currentValue) > 12) {
-        isValidMonth = false;
-      } else {
-        isValidMonth = true;
-      }
-    });
-    if (currentValue.length == 2 && isValidMonth) {
-      FocusScope.of(context).requestFocus(_expYYFocusNode);
+    String value = expiryMMController.text;
+    if (value != "" && int.parse(value[0]) > 1) {
+      expiryMMController.text = '0' + value;
     }
+    setState(() {
+      expiryMonth = value != "" ? expiryMMController.text : "MM";
+    });
+    if (value.length == 2) FocusScope.of(context).requestFocus(_expYYFocusNode);
+  }
+
+  _expiryYearController() {
+    String value = expiryYYController.text;
+    int numValue = value != "" ? int.parse(value) : 0;
+    int currentYear = new DateTime.now().year % 2000;
+    setState(() {
+      expiryYear = value != "" ? value : "YY";
+      isInvalidYear = numValue >= 10 &&
+          (numValue < currentYear || numValue > (currentYear + 15));
+    });
+    if (value.length == 2 && !isInvalidYear)
+      FocusScope.of(context).requestFocus(_nameFocusNode);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: background,
       appBar: AppBar(
         title: Text("Add Card", style: kAppBarHeading),
         leading: IconButton(
@@ -79,22 +96,23 @@ class _AddCardState extends State<AddCard> {
       body: Stack(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.fromLTRB(20, 270, 20, 0),
+            padding: const EdgeInsets.fromLTRB(20, 250, 20, 0),
             child: SingleChildScrollView(
               child: Form(
                 key: _formKey,
                 child: Column(
                   children: <Widget>[
                     SizedBox(height: 10),
+
+                    // Card Number
                     TextFormField(
                       textAlignVertical: TextAlignVertical.bottom,
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                        ),
-                        labelText: "Card Number",
-                        isDense: true
-                      ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                          ),
+                          labelText: "Card Number",
+                          isDense: true),
                       keyboardType: TextInputType.number,
                       textInputAction: TextInputAction.next,
                       onChanged: (value) {
@@ -106,10 +124,9 @@ class _AddCardState extends State<AddCard> {
                         FocusScope.of(context).requestFocus(_expMMFocusNode);
                       },
                       validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please enter a card number';
-                        }
-                        return null;
+                        return value.isEmpty
+                            ? 'Please enter a card number'
+                            : null;
                       },
                       inputFormatters: [
                         FilteringTextInputFormatter.digitsOnly,
@@ -118,37 +135,34 @@ class _AddCardState extends State<AddCard> {
                       ],
                     ),
                     SizedBox(height: 16),
+
+                    // Expiration Fields
                     Container(
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Flexible(
                             child: TextFormField(
+                              // Exp Month
                               decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                                ),
-                                hintText: "MM",
-                                errorText: !isValidMonth ? "Invalid month" : null,
-                                isDense: true
-                              ),
+                                  border: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(8)),
+                                  ),
+                                  hintText: "MM",
+                                  isDense: true),
                               keyboardType: TextInputType.number,
                               textInputAction: TextInputAction.next,
-                              onChanged: (value) {
-                                setState(() {
-                                  expiryMonth = value;
-                                });
-                              },
                               onFieldSubmitted: (String value) {
-                                FocusScope.of(context).requestFocus(_expYYFocusNode);
+                                FocusScope.of(context)
+                                    .requestFocus(_expYYFocusNode);
                               },
                               validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter a month';
-                                }
-                                return null;
+                                return value.isEmpty
+                                    ? 'Enter expiration month'
+                                    : null;
                               },
-                              controller: expiryController,
+                              controller: expiryMMController,
                               inputFormatters: [
                                 FilteringTextInputFormatter.digitsOnly,
                                 LengthLimitingTextInputFormatter(2)
@@ -159,30 +173,28 @@ class _AddCardState extends State<AddCard> {
                           SizedBox(width: 20),
                           Flexible(
                             child: TextFormField(
+                              // Exp Year
                               decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                                ),
-                                hintText: "YY",
-                                errorText: !isValidYear ? "Invalid year" : null,
-                                isDense: true
-                              ),
+                                  border: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(8)),
+                                  ),
+                                  hintText: "YY",
+                                  errorText:
+                                      isInvalidYear ? "Invalid year" : null,
+                                  isDense: true),
                               keyboardType: TextInputType.number,
                               textInputAction: TextInputAction.next,
-                              onChanged: (value) {
-                                setState(() {
-                                  expiryYear = value;
-                                });
-                              },
                               onFieldSubmitted: (String value) {
-                                if (isValidYear) FocusScope.of(context).requestFocus(_nameFocusNode);
+                                FocusScope.of(context)
+                                    .requestFocus(_nameFocusNode);
                               },
                               validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter a year';
-                                }
-                                return null;
+                                return value.isEmpty
+                                    ? 'Enter expiration year'
+                                    : null;
                               },
+                              controller: expiryYYController,
                               inputFormatters: [
                                 FilteringTextInputFormatter.digitsOnly,
                                 LengthLimitingTextInputFormatter(2)
@@ -194,15 +206,16 @@ class _AddCardState extends State<AddCard> {
                       ),
                     ),
                     SizedBox(height: 16),
+
+                    // Card holder name
                     TextFormField(
                       textCapitalization: TextCapitalization.words,
                       decoration: InputDecoration(
-                        hintText: "Card Holder Name",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                        ),
-                        isDense: true
-                      ),
+                          hintText: "Card Holder Name",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                          ),
+                          isDense: true),
                       keyboardType: TextInputType.text,
                       textInputAction: TextInputAction.next,
                       onChanged: (value) {
@@ -222,14 +235,15 @@ class _AddCardState extends State<AddCard> {
                       focusNode: _nameFocusNode,
                     ),
                     SizedBox(height: 16),
+
+                    // CVV field
                     TextFormField(
                       decoration: InputDecoration(
-                        hintText: "CVV",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                        ),
-                        isDense: true
-                      ),
+                          hintText: "CVV",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                          ),
+                          isDense: true),
                       keyboardType: TextInputType.number,
                       onChanged: (value) {
                         setState(() {
@@ -261,7 +275,9 @@ class _AddCardState extends State<AddCard> {
                         heightFactor: 2.4,
                       ),
                       onPressed: () {
-
+                        if (_formKey.currentState.validate()) {
+                          print("Attempted to add card!");
+                        }
                       },
                     )
                   ],
@@ -270,39 +286,36 @@ class _AddCardState extends State<AddCard> {
             ),
           ),
 
+          // Display Card
           Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 40),
-                child: CreditCard(
-                  cardNumber: cardNumber,
-                  cardExpiry: expiryMonth + "/" + expiryYear,
-                  cardHolderName: cardHolderName,
-                  cvv: cvv,
-                  showBackSide: showBack,
-                  frontBackground: CardBackgrounds.black,
-                  backBackground: CardBackgrounds.white,
-                  showShadow: true,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 25),
+                  child: CreditCard(
+                    cardNumber: cardNumber,
+                    cardExpiry: expiryMonth + "/" + expiryYear,
+                    cardHolderName: cardHolderName,
+                    cvv: cvv,
+                    showBackSide: showBack,
+                    frontBackground: CardBackgrounds.black,
+                    backBackground: CardBackgrounds.white,
+                    showShadow: true,
+                  ),
                 ),
-              ),
-            ]
-          )
+              ])
         ],
       ),
     );
   }
 }
 
-
 // Credit Card Input Formatter
 class _CardNumberInputFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
-    TextEditingValue oldValue,
-    TextEditingValue newValue
-  ) {
+      TextEditingValue oldValue, TextEditingValue newValue) {
     final int newTextLength = newValue.text.length;
     int selectionIndex = newValue.selection.end;
     int usedSubstringIndex = 0;
@@ -310,18 +323,15 @@ class _CardNumberInputFormatter extends TextInputFormatter {
 
     if (newTextLength >= 5) {
       newText.write(newValue.text.substring(0, usedSubstringIndex = 4) + ' ');
-      if (newValue.selection.end >= 4)
-        selectionIndex ++;
+      if (newValue.selection.end >= 4) selectionIndex++;
     }
     if (newTextLength >= 9) {
       newText.write(newValue.text.substring(4, usedSubstringIndex = 8) + ' ');
-      if (newValue.selection.end >= 8)
-        selectionIndex++;
+      if (newValue.selection.end >= 8) selectionIndex++;
     }
     if (newTextLength >= 13) {
       newText.write(newValue.text.substring(8, usedSubstringIndex = 12) + ' ');
-      if (newValue.selection.end >= 12)
-        selectionIndex++;
+      if (newValue.selection.end >= 12) selectionIndex++;
     }
     // Dump the rest.
     if (newTextLength >= usedSubstringIndex)
