@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>3525304113-9li3mru07d8qo99pq3tcit5tt8g4hn0p.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.3525304113-9li3mru07d8qo99pq3tcit5tt8g4hn0p</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>3525304113-umm0gq72fetm7jdk1i7sdkrcrhen0bak.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBwC3B5JU0whzq-ywd3aKj33BosCFNBSiU</string>
+	<key>GCM_SENDER_ID</key>
+	<string>3525304113</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.dinendash</string>
+	<key>PROJECT_ID</key>
+	<string>dinendash-f691e</string>
+	<key>STORAGE_BUCKET</key>
+	<string>dinendash-f691e.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:3525304113:ios:59468a28befcf6fc34da10</string>
+	<key>DATABASE_URL</key>
+	<string>https://dinendash-f691e.firebaseio.com</string>
+</dict>
+</plist>

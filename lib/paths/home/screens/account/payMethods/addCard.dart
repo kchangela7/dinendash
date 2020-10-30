@@ -2,6 +2,7 @@ import 'package:awesome_card/awesome_card.dart';
 import 'package:dinendash/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AddCard extends StatefulWidget {
@@ -21,8 +22,16 @@ class _AddCardState extends State<AddCard> {
   final _formKey = GlobalKey<FormState>();
 
   // Validity checks
-  bool isInvalidYear = false;
+  Map<String, bool> errors = {
+    "card number": false,
+    "expiration month": false,
+    "expiration year": false,
+    "name": false,
+    "CVV": false
+  };
+  bool toastOpen = false;
 
+  // Controllers
   final expiryMMController = TextEditingController();
   final expiryYYController = TextEditingController();
 
@@ -55,7 +64,7 @@ class _AddCardState extends State<AddCard> {
     super.dispose();
   }
 
-  // Automatically move to expiryYY field
+  // Automatically move to expiryYY field and some validation
   _expiryMonthController() {
     String value = expiryMMController.text;
     if (value != "" && int.parse(value[0]) > 1) {
@@ -67,17 +76,41 @@ class _AddCardState extends State<AddCard> {
     if (value.length == 2) FocusScope.of(context).requestFocus(_expYYFocusNode);
   }
 
+  // Check if expiryYY is valid and move to next field
   _expiryYearController() {
     String value = expiryYYController.text;
     int numValue = value != "" ? int.parse(value) : 0;
     int currentYear = new DateTime.now().year % 2000;
     setState(() {
       expiryYear = value != "" ? value : "YY";
-      isInvalidYear = numValue >= 10 &&
+      errors["expiration year"] = numValue >= 10 &&
           (numValue < currentYear || numValue > (currentYear + 15));
     });
-    if (value.length == 2 && !isInvalidYear)
+    if (value.length == 2 && !errors["expiration year"])
       FocusScope.of(context).requestFocus(_nameFocusNode);
+  }
+
+  // Check validation fields and add card
+  void addCard() {
+    _formKey.currentState.validate(); // Run validators
+
+    // Display errors in toast if any
+    for (final i in errors.keys) {
+      if (errors[i]) {
+        if (i != "name") {
+          Fluttertoast.showToast(
+            msg: 'Please enter valid $i',
+            toastLength: Toast.LENGTH_LONG,
+          );
+        } else {
+          Fluttertoast.showToast(
+            msg: 'Please enter a $i',
+            toastLength: Toast.LENGTH_LONG,
+          );
+        }
+        break; // Stop after first error displayed
+      }
+    }
   }
 
   @override
@@ -124,9 +157,10 @@ class _AddCardState extends State<AddCard> {
                         FocusScope.of(context).requestFocus(_expMMFocusNode);
                       },
                       validator: (value) {
-                        return value.isEmpty
-                            ? 'Please enter a card number'
-                            : null;
+                        setState(() {
+                          errors["card number"] = value.isEmpty;
+                        });
+                        return null;
                       },
                       inputFormatters: [
                         FilteringTextInputFormatter.digitsOnly,
@@ -158,9 +192,10 @@ class _AddCardState extends State<AddCard> {
                                     .requestFocus(_expYYFocusNode);
                               },
                               validator: (value) {
-                                return value.isEmpty
-                                    ? 'Enter expiration month'
-                                    : null;
+                                setState(() {
+                                  errors["expiration month"] = value.isEmpty;
+                                });
+                                return null;
                               },
                               controller: expiryMMController,
                               inputFormatters: [
@@ -170,7 +205,7 @@ class _AddCardState extends State<AddCard> {
                               focusNode: _expMMFocusNode,
                             ),
                           ),
-                          SizedBox(width: 20),
+                          SizedBox(width: 10),
                           Flexible(
                             child: TextFormField(
                               // Exp Year
@@ -180,19 +215,21 @@ class _AddCardState extends State<AddCard> {
                                         BorderRadius.all(Radius.circular(8)),
                                   ),
                                   hintText: "YY",
+                                  errorStyle: TextStyle(height: 0),
                                   errorText:
-                                      isInvalidYear ? "Invalid year" : null,
+                                      errors["expiration year"] ? "" : null,
                                   isDense: true),
                               keyboardType: TextInputType.number,
                               textInputAction: TextInputAction.next,
                               onFieldSubmitted: (String value) {
                                 FocusScope.of(context)
-                                    .requestFocus(_nameFocusNode);
+                                    .requestFocus(_cvvFocusNode);
                               },
                               validator: (value) {
-                                return value.isEmpty
-                                    ? 'Enter expiration year'
-                                    : null;
+                                setState(() {
+                                  errors["expiration year"] = value.isEmpty;
+                                });
+                                return null;
                               },
                               controller: expiryYYController,
                               inputFormatters: [
@@ -202,6 +239,40 @@ class _AddCardState extends State<AddCard> {
                               focusNode: _expYYFocusNode,
                             ),
                           ),
+                          SizedBox(width: 10),
+                          Flexible(
+                            child: TextFormField(
+                              // CVV field
+                              decoration: InputDecoration(
+                                  hintText: "CVV",
+                                  border: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(8)),
+                                  ),
+                                  isDense: true),
+                              keyboardType: TextInputType.number,
+                              onChanged: (value) {
+                                setState(() {
+                                  cvv = value;
+                                });
+                              },
+                              onFieldSubmitted: (String value) {
+                                FocusScope.of(context)
+                                    .requestFocus(_nameFocusNode);
+                              },
+                              validator: (value) {
+                                setState(() {
+                                  errors["CVV"] = value.isEmpty;
+                                });
+                                return null;
+                              },
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                                LengthLimitingTextInputFormatter(3)
+                              ],
+                              focusNode: _cvvFocusNode,
+                            ),
+                          )
                         ],
                       ),
                     ),
@@ -224,49 +295,21 @@ class _AddCardState extends State<AddCard> {
                         });
                       },
                       onFieldSubmitted: (String value) {
-                        FocusScope.of(context).requestFocus(_cvvFocusNode);
+                        if (_formKey.currentState.validate()) {
+                          print("Attempted to add card!");
+                        }
                       },
                       validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please enter a name';
-                        }
+                        setState(() {
+                          errors["name"] = value.isEmpty;
+                        });
                         return null;
                       },
                       focusNode: _nameFocusNode,
                     ),
                     SizedBox(height: 16),
 
-                    // CVV field
-                    TextFormField(
-                      decoration: InputDecoration(
-                          hintText: "CVV",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(8)),
-                          ),
-                          isDense: true),
-                      keyboardType: TextInputType.number,
-                      onChanged: (value) {
-                        setState(() {
-                          cvv = value;
-                        });
-                      },
-                      onFieldSubmitted: (String value) {
-                        if (_formKey.currentState.validate()) {
-                          print("Attempted to add card!");
-                        }
-                      },
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please enter a CVV number';
-                        }
-                        return null;
-                      },
-                      inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly,
-                        LengthLimitingTextInputFormatter(3)
-                      ],
-                      focusNode: _cvvFocusNode,
-                    ),
+                    // Add Card Button
                     SizedBox(height: 16),
                     FlatButton(
                       color: primary,
@@ -274,11 +317,7 @@ class _AddCardState extends State<AddCard> {
                         child: Text("Add Card", style: kPayTextStyle),
                         heightFactor: 2.4,
                       ),
-                      onPressed: () {
-                        if (_formKey.currentState.validate()) {
-                          print("Attempted to add card!");
-                        }
-                      },
+                      onPressed: () => addCard(),
                     )
                   ],
                 ),
